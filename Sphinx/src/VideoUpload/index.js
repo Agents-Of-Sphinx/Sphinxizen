@@ -1,42 +1,56 @@
-import { useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { storage , auth} from '../firebase';
+import { useState } from "react";
+import { storage } from "./firebaseConfig";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
-export default function VideoUpload() {
-  const [user] = useAuthState(auth);
-  const [video, setVideo] = useState(null);
-  const [progress, setProgress] = useState(0);
+function VideoUpload() {
+// State to store uploaded file
+const [file, setFile] = useState("");
 
-  const handleUpload = async () => {
-    // Upload the video to Firebase Storage
-    const storageRef = storage.ref();
-    const videoRef = storageRef.child(`${user.uid}/${video.name}`);
-    const uploadTask = videoRef.put(video);
+// State to store upload progress
+const [percent, setPercent] = useState(0);
 
-    // Update the progress bar as the upload progresses
-    uploadTask.on('state_changed', (snapshot) => {
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      setProgress(progress);
-    });
-
-    // Once the upload is complete, store the video URL in the user's profile information
-    await uploadTask;
-    const videoUrl = await videoRef.getDownloadURL();
-    // Store the video URL in the user's profile information using Firebase's updateProfile method
-    await auth.currentUser.updateProfile({
-      photoURL: videoUrl,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    setVideo(e.target.files[0]);
-  };
-
-  return (
-    <>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload Video</button>
-      {progress > 0 && <progress value={progress} max="100" />}
-    </>
-  );
+// Handle file upload event and update state
+function handleChange(event) {
+setFile(event.target.files[0]);
 }
+
+const handleUpload = () => {
+if (!file) {
+alert("Please upload an image first!");
+}
+const storageRef = ref(storage, `/files/${file.name}`);
+
+// Progress can be paused and resumed. It also exposes progress updates.
+// Receives the storage reference and the file to upload.
+const uploadTask = uploadBytesResumable(storageRef, file);
+
+uploadTask.on(
+  "state_changed",
+  (snapshot) => {
+    const percent = Math.round(
+      (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+    );
+
+    // Update progress
+    setPercent(percent);
+  },
+  (err) => console.log(err),
+  () => {
+    // Get download URL
+    getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+      console.log(url);
+    });
+  }
+);
+};
+
+return (
+<div>
+<input type="file" onChange={handleChange} accept="/image/*" />
+<button onClick={handleUpload}>Upload to Firebase</button>
+<p>{percent}% done</p>
+</div>
+);
+}
+
+export default VideoUpload;

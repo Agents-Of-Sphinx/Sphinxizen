@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, redirect } from 'react-router-dom';
 
 import Login from './Login';
 import SignUp from './SignUp';
@@ -11,15 +10,11 @@ import { auth } from './firebase';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const [user] = useAuthState(auth);
-
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        user ? <Component {...props} /> : <Redirect to="/login" />
-      }
-    />
-  );
+  if (user){
+    return true
+  }else{
+    return false
+  }
 }
 
 function App() {
@@ -28,9 +23,10 @@ function App() {
       <Navigation />
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <PrivateRoute path="/profile" element={<Profile />} />
-        <PrivateRoute path="/upload" element={<VideoUpload />} />
+        {PrivateRoute}?<Route path="/profile" element={<Profile />} />: <Route path="/" element={<Login />} />
+        {PrivateRoute}?<Route path="/upload" element={<VideoUpload />} />: <Route path="/" element={<Login />} />
       </Routes>
     </Router>
   );

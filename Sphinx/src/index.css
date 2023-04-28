@@ -1,0 +1,25 @@
+*{
+  margin:0;
+}
+body{
+  margin:0;
+}
+
+.Navbar{
+  width: 100%;
+  display: flex; 
+  justify-content: space-around;
+  align-items: center;
+  Background: rgb(247, 207, 47);
+  margin-bottom: 20px;
+}
+.Navbar a{
+  font-style: italic;
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+  padding: 10px 0;
+}
+div{
+  text-align: center;
+}

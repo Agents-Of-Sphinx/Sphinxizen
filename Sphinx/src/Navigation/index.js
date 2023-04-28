@@ -7,7 +7,7 @@ import VideoUpload from "../VideoUpload";
 export default function Navigation() {
   return (
     <>
-      <nav>
+      <nav className="Navbar">
         <Link to="/">
             Sphinx
         </Link>
@@ -25,10 +25,10 @@ export default function Navigation() {
         </Link>
       </nav>
       <Routes>
-        <Route path="/login" component={Login} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/profile" component={Profile} />
-        <Route path="/videoUpload" component={VideoUpload} />
+        <Route path="/login" element={Login} />
+        <Route path="/signup" element={SignUp} />
+        <Route path="/profile" element={Profile} />
+        <Route path="/videoUpload" element={VideoUpload} />
       </Routes>
     </>
   );
