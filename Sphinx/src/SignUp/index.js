@@ -20,6 +20,8 @@ function SignUp() {
 
   return (
     <>
+      <div class="sign-up">
+      <center>
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <label>
@@ -41,6 +43,9 @@ function SignUp() {
         <button type="submit">Sign Up</button>
       </form>
       {error && <p>{error}</p>}
+      <left> <p id="sml-msg">Must sign up to gain access to all the fun!</p> </left>
+      </center>
+      </div>
     </>
   );
 }
