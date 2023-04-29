@@ -1,66 +1,55 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  list,
+} from "firebase/storage";
 import { storage } from "../firebase";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
 
 function VideoUpload() {
-  // State to store uploaded file
-  const [file, setFile] = useState("");
+  const [imageUpload, setImageUpload] = useState(null);
+  const [imageUrls, setImageUrls] = useState([]);
 
-  // State to store upload progress
-  const [percent, setPercent] = useState(0);
-
-  // Handle file upload event and update state
-  function handleChange(event) {
-    setFile(event.target.files[0]);
-  }
-
-  const handleUpload = async () => {
-    if (!file) {
-      alert("Please upload a video first!");
-      return;
-    }
-  
-    try {
-      const storageRef = ref(storage, `/files/${file.name}`);
-  
-      // Progress can be paused and resumed. It also exposes progress updates.
-      // Receives the storage reference and the file to upload.
-      const uploadTask = uploadBytesResumable(storageRef, file);
-  
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const percent = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-  
-          // Update progress
-          setPercent(percent);
-        },
-        (err) => console.log(err),
-        async () => {
-          // Get download URL
-          try {
-            const url = await getDownloadURL(uploadTask.snapshot.ref);
-            console.log(url);
-          } catch (err) {
-            console.log(err);
-            alert("Error getting download URL");
-          }
-        }
-      );
-    } catch (err) {
-      console.log(err);
-      alert("Error uploading file");
-    }
+  const imagesListRef = ref(storage, "video/mp4");
+  const uploadFile = () => {
+    if (imageUpload == null) return;
+    const imageRef = ref(storage, `videos/mp4${imageUpload.name + v4()}`);
+    uploadBytes(imageRef, imageUpload).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        setImageUrls((prev) => [...prev, url]);
+      });
+    });
   };
-  
+
+  useEffect(() => {
+    listAll(imagesListRef).then((response) => {
+      response.items.forEach((item) => {
+        getDownloadURL(item).then((url) => {
+          setImageUrls((prev) => [...prev, url]);
+        });
+      });
+    });
+  }, []);
 
   return (
-    <div>
-      <input type="file" onChange={handleChange} accept="video/mp4" />
-      <button onClick={handleUpload}>Upload to Firebase</button>
-      <p>{percent}% done</p>
+    <div className="Videos">
+      <input
+        type="file"
+        onChange={(event) => {
+          setImageUpload(event.target.files[0]);
+        }}
+      />
+      <button onClick={uploadFile}> Upload Video</button>
+      {imageUrls.map((url) => {
+        return (
+          <video width="750" height="500" controls>
+            <source src={url} type="video/mp4" />
+          </video>
+        );
+      })}
     </div>
   );
 }
