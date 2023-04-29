@@ -20,7 +20,7 @@ export default function Navigation() {
         <Link to="/profile">
           Profile
         </Link>
-        <Link to="/videoUpload">
+        <Link to="/upload">
           Upload Video
         </Link>
       </nav>
@@ -28,7 +28,7 @@ export default function Navigation() {
         <Route path="/login" element={Login} />
         <Route path="/signup" element={SignUp} />
         <Route path="/profile" element={Profile} />
-        <Route path="/videoUpload" element={VideoUpload} />
+        <Route path="/upload" element={VideoUpload} />
       </Routes>
     </>
   );

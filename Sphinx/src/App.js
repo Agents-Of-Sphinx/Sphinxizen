@@ -23,7 +23,7 @@ function App() {
       <Navigation />
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         {PrivateRoute}?<Route path="/profile" element={<Profile />} />: <Route path="/" element={<Login />} />
         {PrivateRoute}?<Route path="/upload" element={<VideoUpload />} />: <Route path="/" element={<Login />} />
