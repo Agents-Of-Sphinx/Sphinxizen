@@ -12,6 +12,10 @@ body{
   align-items: center;
   Background: rgb(247, 207, 47);
   margin-bottom: 20px;
+  /* position:fixed;
+  margin-top: 0;
+  top:0;
+  z-index: 1; */
 }
 .Navbar a{
   font-style: italic;
@@ -23,7 +27,7 @@ body{
 div{
   text-align: center;
 }
-<<<<<<< Updated upstream
+
   /* Signup form styles */
   .sign-up {
     background-color: white
@@ -161,4 +165,14 @@ img {
   display: block;
   margin: 20px auto;
   max-width: 100%;
+}
+
+.Home{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top:20px;
+}
+#logo{
+  font-size: 40px;
 }

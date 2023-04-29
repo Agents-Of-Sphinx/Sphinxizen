@@ -7,6 +7,7 @@ import VideoUpload from './VideoUpload';
 import Navigation from './Navigation';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebase';
+import Home from './HomePage';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const [user] = useAuthState(auth);
@@ -22,8 +23,8 @@ function App() {
     <Router>
       <Navigation />
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         {PrivateRoute}?<Route path="/profile" element={<Profile />} />: <Route path="/" element={<Login />} />
         {PrivateRoute}?<Route path="/upload" element={<VideoUpload />} />: <Route path="/" element={<Login />} />
