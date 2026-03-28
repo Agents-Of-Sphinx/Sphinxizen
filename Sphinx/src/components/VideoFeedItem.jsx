@@ -32,8 +32,9 @@ export default function VideoFeedItem({ video, isActive }) {
     }
   };
 
-  return (
-    <div className="relative h-screen w-full snap-start snap-always overflow-hidden bg-black flex items-center justify-center">
+return (
+  <div className="h-screen w-full snap-start snap-always overflow-hidden bg-black flex items-center justify-center">
+    <div className="relative h-full aspect-[9/16] w-full max-w-[420px] overflow-hidden bg-black">
       <video
         ref={videoRef}
         src={video.video_url}
@@ -92,19 +93,26 @@ export default function VideoFeedItem({ video, isActive }) {
           <span className="text-white text-xs font-semibold">Share</span>
         </button>
 
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-black border-4 border-gray-600 flex items-center justify-center animate-spin" style={{ animationDuration: '4s' }}>
+        <div
+          className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-black border-4 border-gray-600 flex items-center justify-center animate-spin"
+          style={{ animationDuration: '4s' }}
+        >
           <Music2 size={14} className="text-white" />
         </div>
       </div>
 
       <div className="absolute bottom-20 left-3 right-20 z-30">
-        <p className="text-white font-bold text-sm mb-0.5">@{(video.uploader_name || 'anonymous').toLowerCase().replace(/\s/g, '')}</p>
+        <p className="text-white font-bold text-sm mb-0.5">
+          @{(video.uploader_name || 'anonymous').toLowerCase().replace(/\s/g, '')}
+        </p>
         <p className="text-white text-sm leading-snug mb-2 line-clamp-2">{video.title}</p>
         {video.description && <p className="text-gray-300 text-xs line-clamp-1">{video.description}</p>}
         {video.tags?.length > 0 && (
           <div className="flex gap-1.5 mt-1.5 flex-wrap">
             {video.tags.slice(0, 3).map((tag) => (
-              <span key={tag} className="text-white text-xs font-semibold">#{tag}</span>
+              <span key={tag} className="text-white text-xs font-semibold">
+                #{tag}
+              </span>
             ))}
           </div>
         )}
@@ -114,5 +122,6 @@ export default function VideoFeedItem({ video, isActive }) {
         </div>
       </div>
     </div>
-  );
+  </div>
+);
 }
