@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '../firebase';
-
+import Footer from '../footer/index';
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,6 +18,7 @@ export default function Login() {
   };
 
   return (
+    <>
     <div class="sign-up">
       <center>
       <h2>Log In</h2>
@@ -28,7 +29,10 @@ export default function Login() {
       {error && <p>{error.message}</p>}
     </form>
     </center>
-    </div> 
+    </div>
+    <Footer/>
+    </>
+     
     
   );
 }

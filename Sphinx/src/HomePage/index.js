@@ -8,6 +8,7 @@ import {
 } from "firebase/storage";
 import { storage } from "../firebase";
 import { v4 } from "uuid";
+import Footer from '../footer/index';
 
 function Home() {
   const [imageUpload, setImageUpload] = useState(null);
@@ -35,6 +36,7 @@ function Home() {
   }, []);
 
   return (
+    <>
     <div className="Home">
       {imageUrls.map((url) => {
         return (
@@ -44,6 +46,9 @@ function Home() {
         );
       })}
     </div>
+    <Footer/>
+    </>
+    
   );
 }
 

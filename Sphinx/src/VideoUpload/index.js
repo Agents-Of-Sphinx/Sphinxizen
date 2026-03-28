@@ -8,6 +8,7 @@ import {
 } from "firebase/storage";
 import { storage } from "../firebase";
 import { v4 } from "uuid";
+import Footer from '../footer/index';
 
 function VideoUpload() {
   const [imageUpload, setImageUpload] = useState(null);
@@ -35,6 +36,7 @@ function VideoUpload() {
   }, []);
 
   return (
+    <>
     <div className="Videos">
       <input
         type="file"
@@ -51,6 +53,9 @@ function VideoUpload() {
         );
       })}
     </div>
+    <Footer/>
+    </>
+    
   );
 }
 
